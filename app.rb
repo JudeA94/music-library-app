@@ -56,16 +56,14 @@ class Application < Sinatra::Base
   end
 
   post '/albums' do
-    if !params[:title].nil? and params[:release_year].to_i.digits.length == 4 and params[:artist_id].match?(/^[0-9]*$/)
+    if !params[:title].empty? and params[:release_year].to_i.digits.length == 4 and params[:artist_id].match?(/^[0-9]*$/)
       @title = params[:title]
       @release_year = params[:release_year]
       @artist_id = params[:artist_id]
-
       album = Album.new
       album.title = @title
       album.release_year = @release_year
       album.artist_id = @artist_id
-
       repo = AlbumRepository.new
       repo.create(album)
       return erb(:post_album_form)

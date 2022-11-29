@@ -98,14 +98,23 @@ describe Application do
     end
 
     it 'sends to an error page if given dodgy title input' do
-
+      response = post('/albums?id=13&title=&release_year=2017&artist_id=3')
+      expect(response.status).to eq(400)
+      expect(response.body).to include '<h1>Invalid Album Input</h1>'
+      expect(response.body).to include '<a href="/albums/new">Please try again</a>'
     end
 
     it 'sends to an error page if given dodgy release_year input' do
-      
+      response = post('/albums?id=13&title=&release_year=aaaa&artist_id=3')
+      expect(response.status).to eq(400)
+      expect(response.body).to include '<h1>Invalid Album Input</h1>'
+      expect(response.body).to include '<a href="/albums/new">Please try again</a>'
     end
     it 'sends to an error page if given dodgy artist_id input' do
-      
+      response = post('/albums?id=13&title=&release_year=2017&artist_id=aaaa')
+      expect(response.status).to eq(400)
+      expect(response.body).to include '<h1>Invalid Album Input</h1>'
+      expect(response.body).to include '<a href="/albums/new">Please try again</a>'
     end
 
   end
@@ -162,11 +171,17 @@ describe Application do
     end
 
     it 'sends to an error page if given dodgy name input' do
-
+      response = post('/artists?id=6&name=&genre=indie')
+      expect(response.status).to eq(400)
+      expect(response.body).to include '<h1>Invalid Artist Input</h1>'
+      expect(response.body).to include '<a href="/artists/new">Please try again</a>'
     end
 
     it 'sends to an error page if given dodgy genre input' do
-      
+      response = post('/artists?id=6&name=Wild Nothing&genre=')
+      expect(response.status).to eq(400)
+      expect(response.body).to include '<h1>Invalid Artist Input</h1>'
+      expect(response.body).to include '<a href="/artists/new">Please try again</a>'
     end
   end
 end
